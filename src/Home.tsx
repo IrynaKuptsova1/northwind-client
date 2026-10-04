@@ -7,7 +7,7 @@ function Home() {
   const getProducts = async () => {
     const urlToServer = import.meta.env.VITE_API_URL;
     
-    const res = await fetch(`${urlToServer}/products`);
+    const res = await fetch(`${urlToServer}/data/products`);
     const jsonRes = await res.json();
     setProducts(jsonRes.data);
   };
