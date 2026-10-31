@@ -6,6 +6,9 @@ export type Products = {
   unitsInStock: number;
   unitsOnOrder: number;
 };
+export type Customers= {
+  
+}
 export type  Suppliers = {
   supplierId: number;
   companyName: string;
