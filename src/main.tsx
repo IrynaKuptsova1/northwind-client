@@ -7,6 +7,11 @@ import Products from "./Products";
 import ProductPageById from "./ProductPageById";
 import SupplierPageById from "./SupplierPageById";
 import Sidebar from "./Sidebar";
+import Customers from "./Costomers";
+import CustomerPageById from "./CustomerPageById";
+import Suppliers from "./SupplierPage";
+import Employees from "./Employees";
+import EmployeePageById from "./EmployeePageById";
 
 createRoot(document.getElementById("root")!).render(
   <BrowserRouter>
@@ -16,10 +21,13 @@ createRoot(document.getElementById("root")!).render(
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/products" element={<Products />} />
-          <Route path="/suppliers" element={<h1>Suppliers</h1>} />
+          <Route path="/suppliers" element={<Suppliers />} />
           <Route path="/product/:id" element={<ProductPageById />} />
           <Route path="/supplier/:id" element={<SupplierPageById />} />
-          
+          <Route path="/employees" element={<Employees />} />
+          <Route path="/employee/:id" element={<EmployeePageById />} />
+          <Route path="/customers" element={<Customers />} />
+          <Route path="/customer/:id" element={<CustomerPageById />} />
         </Routes>
       </main>
     </div>

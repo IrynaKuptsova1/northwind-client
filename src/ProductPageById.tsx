@@ -15,9 +15,10 @@ function ProductPageById() {
       try {
         setLoading(true);
         setError("");
+        setProduct(null);
 
         const res = await fetch(
-          `${import.meta.env.VITE_API_URL}/data/product/${id}`,
+          `${import.meta.env.VITE_API_URL}/data/product/${encodeURIComponent(id ?? "")}`,
         );
 
         if (!res.ok) {
@@ -27,7 +28,7 @@ function ProductPageById() {
         const data: ProductDetails = await res.json();
         setProduct(data);
       } catch (error) {
-        console.error(error);
+        setError(error instanceof Error ? error.message : "Unable to load product");
       } finally {
         setLoading(false);
       }
@@ -43,7 +44,7 @@ function ProductPageById() {
   }
 
   if (error) {
-    return <p>{error}</p>;
+    return <p role="alert">{error}</p>;
   }
 
   if (!product) {
@@ -52,25 +53,22 @@ function ProductPageById() {
 
   return (
     <div>
-      <h1>{product.productName}</h1>
+      <h1>{product.productName?.trim() || `Product ${product.productId}`}</h1>
 
       <p>Product ID: {product.productId}</p>
-      <p>
-        Supplier:
-        {product.supplierId !== null ? (
-          <Link to={`/supplier/${product.supplierId}`}>
-            {product.supplierName ?? `Supplier ${product.supplierId}`}
+      {product.supplierId != null && (
+        <p>
+          Supplier: <Link to={`/supplier/${product.supplierId}`}>
+            {product.supplierName?.trim() || product.supplierId}
           </Link>
-        ) : (
-          <p>No supplier</p>
-        )}{" "}
-      </p>
-      <p>Quantity per unit: {product.quantityPerUnit}</p>
-      <p>Price: {product.unitPrice}</p>
-      <p>Units in stock: {product.unitsInStock}</p>
-      <p>Units on order: {product.unitsOnOrder}</p>
-      <p>Reorder level: {product.reorderLevel}</p>
-      <p>Discontinued: {product.discontinued ? product.discontinued : "0"}</p>
+        </p>
+      )}
+      {product.quantityPerUnit?.trim() && <p>Quantity per unit: {product.quantityPerUnit}</p>}
+      {product.unitPrice != null && <p>Price: {product.unitPrice}</p>}
+      {product.unitsInStock != null && <p>Units in stock: {product.unitsInStock}</p>}
+      {product.unitsOnOrder != null && <p>Units on order: {product.unitsOnOrder}</p>}
+      {product.reorderLevel != null && <p>Reorder level: {product.reorderLevel}</p>}
+      {product.discontinued != null && <p>Discontinued: {product.discontinued}</p>}
       <button onClick={() => navigate(-1)}>Back</button>
     </div>
   );

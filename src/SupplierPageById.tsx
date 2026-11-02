@@ -16,27 +16,28 @@ function SupplierPageById() {
       try {
         setLoading(true);
         setError("");
+        setSupplier(null);
+
+        if (!id) throw new Error("Missing supplier ID");
 
         const res = await fetch(
-          `${import.meta.env.VITE_API_URL}/data/supplier/${id}`,
+          `${import.meta.env.VITE_API_URL}/data/supplier/${encodeURIComponent(id ?? "")}`,
         );
 
         if (!res.ok) {
-          throw new Error(`Error: ${res.status}`);
+          throw new Error(res.status === 404 ? "Supplier not found" : `Unable to load supplier (HTTP ${res.status})`);
         }
 
         const data: SupplierDetails = await res.json();
         setSupplier(data);
       } catch (error) {
-        console.error(error);
+        setError(error instanceof Error ? error.message : "Unable to load supplier");
       } finally {
         setLoading(false);
       }
     }
 
-    if (id) {
-      getSupplier();
-    }
+    getSupplier();
   }, [id]);
 
   if (loading) {
@@ -44,7 +45,7 @@ function SupplierPageById() {
   }
 
   if (error) {
-    return <p>{error}</p>;
+    return <p role="alert">{error}</p>;
   }
 
   if (!supplier) {
@@ -54,17 +55,18 @@ function SupplierPageById() {
   return (
     <div>
       <h1>Supplier information</h1>
-      <p>Company name: {supplier.companyName}</p>
-      <p>Contact name: {supplier.contactName}</p>
-      <p>Contact title: {supplier.contactTitle}</p>
-      <p>Address: {supplier.address}</p>
-      <p>City: {supplier.city}</p>
-      <p>Region: {supplier.region}</p>
-      <p>Postal code: {supplier.postalCode}</p>
-      <p>Country: {supplier.country}</p>
-      <p>Phone: {supplier.phone}</p>
-      {supplier.fax ? <p>Fax: {supplier.fax}</p> : null}
-      {supplier.homePage ? <p>Home page: {supplier.homePage}</p> : null}
+      <p>Supplier ID: {supplier.supplierId}</p>
+      {supplier.companyName?.trim() && <p>Company name: {supplier.companyName}</p>}
+      {supplier.contactName?.trim() && <p>Contact name: {supplier.contactName}</p>}
+      {supplier.contactTitle?.trim() && <p>Contact title: {supplier.contactTitle}</p>}
+      {supplier.address?.trim() && <p>Address: {supplier.address}</p>}
+      {supplier.city?.trim() && <p>City: {supplier.city}</p>}
+      {supplier.region?.trim() && <p>Region: {supplier.region}</p>}
+      {supplier.postalCode?.trim() && <p>Postal code: {supplier.postalCode}</p>}
+      {supplier.country?.trim() && <p>Country: {supplier.country}</p>}
+      {supplier.phone?.trim() && <p>Phone: {supplier.phone}</p>}
+      {supplier.fax?.trim() && <p>Fax: {supplier.fax}</p>}
+      {supplier.homePage?.trim() && <p>Home page: {supplier.homePage}</p>}
 
       <button onClick={() => navigate(-1)}>Back</button>
     </div>
