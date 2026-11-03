@@ -18,7 +18,7 @@ function ProductPageById() {
         setProduct(null);
 
         const res = await fetch(
-          `${import.meta.env.VITE_API_URL}/data/product/${encodeURIComponent(id ?? "")}`,
+          `${import.meta.env.VITE_API_URL}/data/product/${id}`,
         );
 
         if (!res.ok) {

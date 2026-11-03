@@ -19,7 +19,7 @@ function EmployeePageById() {
       try {
         if (!id) throw new Error("Missing employee ID");
         const res = await fetch(
-          `${import.meta.env.VITE_API_URL}/data/employee/${encodeURIComponent(id)}`,
+          `${import.meta.env.VITE_API_URL}/data/employee/${id}`,
         );
         if (!res.ok) {
           throw new Error(res.status === 404 ? "Employee not found" : `Unable to load employee (HTTP ${res.status})`);

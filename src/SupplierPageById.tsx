@@ -21,7 +21,7 @@ function SupplierPageById() {
         if (!id) throw new Error("Missing supplier ID");
 
         const res = await fetch(
-          `${import.meta.env.VITE_API_URL}/data/supplier/${encodeURIComponent(id ?? "")}`,
+          `${import.meta.env.VITE_API_URL}/data/supplier/${id}`,
         );
 
         if (!res.ok) {

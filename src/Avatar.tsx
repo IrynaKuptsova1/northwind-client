@@ -38,15 +38,14 @@ export default function getAvatar(name: string | null) {
         display: "inline-flex",
         alignItems: "center",
         justifyContent: "center",
-        width: "34px",
-        height: "34px",
+        width: "24px",
+        height: "24px",
         borderRadius: "50%",
         backgroundColor: background,
         color: "#ffffff",
         fontSize: "12px",
         fontWeight: 700,
-      }}
-    >
+      }}>
       {initials}
     </span>
   );
